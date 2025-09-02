@@ -1,0 +1,238 @@
+html, body, #root { height: 100%; margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+.app { display: grid; grid-template-columns: 320px 1fr; height: 100%; }
+.sidebar { padding: 12px; border-right: 1px solid #ddd; overflow: auto; }
+.sidebar h1 { font-size: 18px; margin: 0 0 12px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: center; margin-bottom: 8px; }
+.row label { font-size: 12px; color: #333; }
+.sidebar button { width: 100%; padding: 10px; margin-top: 10px; cursor: pointer; }
+.info { font-size: 12px; color: #222; margin-top: 8px; }
+.small { font-size: 11px; color: #666; }
+.map { height: 100%; width: 100%; min-height: 300px; }
+.map { position: relative; }
+.map .maplibregl-canvas { outline: none; }
+/* Keep map controls above the canvas and clickable */
+.maplibregl-control-container,
+.maplibregl-ctrl-top-left,
+.maplibregl-ctrl-top-right,
+.maplibregl-ctrl-bottom-left,
+.maplibregl-ctrl-bottom-right {
+  z-index: 10;
+}
+
+.maplibregl-ctrl-group,
+.maplibregl-ctrl {
+  pointer-events: auto; /* ensure clicks don’t pass through to the map */
+}
+/* Re-enable clicking on map controls */
+.maplibregl-ctrl-top-left,
+.maplibregl-ctrl-top-right,
+.maplibregl-ctrl-bottom-left,
+.maplibregl-ctrl-bottom-right {
+  pointer-events: auto !important;   /* <-- was none */
+  z-index: 10 !important;            /* keep them above the canvas */
+}
+
+/* Make sure the control groups and buttons accept clicks */
+.maplibregl-ctrl-group,
+.maplibregl-ctrl,
+.mapbox-gl-draw_ctrl-draw-btn,
+.mapbox-gl-draw_ctrl-trash {
+  pointer-events: auto !important;
+}
+/* Make 100% sure controls can receive clicks */
+.maplibregl-control-container {
+  pointer-events: auto !important;
+  z-index: 99 !important;
+}
+.maplibregl-control-container * {
+  pointer-events: auto !important;
+}
+
+/* (Optional) Visual debug to confirm the control area is on top */
+.maplibregl-ctrl-top-left { background: rgba(255, 255, 0, 0.15); }
+.row input[type="range"] { width: 100%; }
+.row > label { white-space: nowrap; }
+/* Reduce Mapbox Draw polygon fill so flight lines stay visible */
+.mapbox-gl-draw_polygon {
+  fill-opacity: 0.05 !important;
+}
+/* ===== Retro (GeoCities-ish) Theme ===== */
+body.retro {
+  /* tiled star background with loud fallback gradient */
+  background: #000 url('/retro/bg_stars.gif') repeat;
+  color: #fff;
+  cursor: crosshair; /* chef’s kiss */
+  font-family: "Comic Sans MS", "Trebuchet MS", Arial, sans-serif;
+}
+
+body.retro .app {
+  grid-template-columns: 360px 1fr;
+}
+
+body.retro .sidebar {
+  background: rgba(0,0,0,0.6);
+  border: 4px ridge #0ff;                /* lovely 3D ridge */
+  box-shadow: 0 0 20px #0ff inset, 0 0 12px #0ff;
+  color: #fff;
+}
+
+body.retro .sidebar h1 {
+  font-family: "Comic Sans MS", "Trebuchet MS", Arial, sans-serif;
+  color: #ff0;
+  text-shadow: 2px 2px 0 #f0f, -2px -2px 0 #0ff;
+  margin-bottom: 6px;
+}
+
+/* animated marquee bar */
+body.retro .marquee {
+  margin: 8px 0 12px;
+  padding: 6px 10px;
+  background: linear-gradient(90deg, #ff0, #0ff, #f0f, #ff0);
+  background-size: 300% 100%;
+  color: #000;
+  font-weight: bold;
+  font-family: 'Press Start 2P', 'VT323', monospace;
+  animation: marqueeGlow 4s linear infinite;
+  border: 3px groove #fff;
+}
+@keyframes marqueeGlow {
+  0% { background-position: 0% 0; }
+  100% { background-position: 100% 0; }
+}
+
+/* buttons: beveled + gradient */
+body.retro button {
+  background: linear-gradient(#fff, #ddd);
+  border: 3px outset #fff;
+  padding: 8px 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #000;
+}
+body.retro button:active {
+  border-style: inset;
+  background: linear-gradient(#ddd, #bbb);
+}
+
+/* inputs look chunky */
+body.retro input, body.retro select {
+  background: #222;
+  color: #0ff;
+  border: 2px solid #0ff;
+  box-shadow: 0 0 8px #0ff inset;
+}
+
+/* sliders: neon track/handle */
+body.retro input[type="range"] {
+  accent-color: #f0f;
+  filter: drop-shadow(0 0 4px #f0f);
+}
+
+/* dividers & badges */
+body.retro .info:before {
+  content: "";
+  display: block;
+  height: 40px;
+  margin: 8px 0;
+  background: url('/retro/winner.gif') repeat-x left center / auto 40px;
+}
+
+/* map gets a neon frame */
+body.retro .map {
+  border: 6px double #ff0;
+  box-shadow: 0 0 24px #f0f, 0 0 12px #0ff inset;
+}
+
+/* tiny blinking helper (use sparingly) */
+@keyframes blink90s { 50% { opacity: 0.2; } }
+body.retro .small.blink { animation: blink90s 1s steps(1, end) infinite; }
+
+/* link colors loud */
+body.retro a { color: #0ff; text-decoration: underline wavy #f0f; }
+body.retro a:hover { background: #ff0; color: #000; }
+
+body.retro { background: #000 url('/retro/bg_stars_animated.gif') repeat; }
+img[src*="badge_"] { image-rendering: pixelated; }
+/* Make all text white in Retro mode */
+body.retro { color: #fff; }
+
+body.retro .sidebar,
+body.retro .info,
+body.retro .row label,
+body.retro h1, body.retro h2, body.retro h3,
+body.retro .small,
+body.retro .marquee {
+  color: #fff;
+}
+
+/* Links readable on dark bg */
+body.retro a { color: #fff; text-decoration: underline; }
+body.retro a:hover { color: #000; background: #fff; }
+
+/* Form controls: white text + caret (keeps your retro borders/bg) */
+body.retro input,
+body.retro select,
+body.retro textarea {
+  color: #fff !important;
+  caret-color: #fff;
+}
+body.retro input::placeholder,
+body.retro textarea::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
+/* Buttons: dark bevel so white text has contrast */
+body.retro button {
+  background: linear-gradient(#333, #111);
+  color: #fff;
+  border: 3px outset #777;
+}
+body.retro button:active {
+  border-style: inset;
+  background: linear-gradient(#111, #000);
+}
+
+/* SUPER retro: pixelate the map canvas and add scanlines + vignette */
+body.retro .map,
+.map.retroOverboard {
+  position: relative;
+}
+
+body.retro .map canvas,
+.map.retroOverboard canvas {
+  image-rendering: pixelated;              /* nearest-neighbor scaling */
+  image-rendering: crisp-edges;
+}
+
+/* overlay container for scanlines + vignette */
+#retro-overlays {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+#retro-overlays .scanlines {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,0.055) 0px,
+    rgba(255,255,255,0.055) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  mix-blend-mode: overlay;
+}
+
+#retro-overlays .vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,0) 60%,
+    rgba(0,0,0,0.15) 80%,
+    rgba(0,0,0,0.30) 100%);
+}
+body.retro, body.retro .sidebar h1, body.retro .row label {
+  font-family: 'VT323', monospace;
+  letter-spacing: 0.5px;
+}
+
